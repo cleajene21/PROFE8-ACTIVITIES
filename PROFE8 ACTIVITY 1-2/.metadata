@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../services/camera_service.dart';
+import '../models/camera.dart';
+import '../widgets/camera_card.dart';
+
+class HomeView extends StatefulWidget {
+  final VoidCallback onCameraViewed;
+  final Function(String)? onRentCamera;
+
+  const HomeView({
+    super.key,
+    required this.onCameraViewed,
+    this.onRentCamera,
+  });
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final CameraService _cameraService = CameraService();
+  List<Camera> _cameras = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCameras();
+  }
+
+  void _loadCameras() {
+    setState(() {
+      _cameras = _cameraService.getAllCameras();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Featured Cameras',
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: StaggeredGridView.countBuilder(
+              crossAxisCount: 2,
+              itemCount: _cameras.length,
+              itemBuilder: (context, index) {
+                return CameraCard(
+                  camera: _cameras[index],
+                  onTap: () {
+                    widget.onCameraViewed();
+                  },
+                  onRent: () {
+                    if (widget.onRentCamera != null) {
+                      widget.onRentCamera!(_cameras[index].id);
+                    }
+                  },
+                );
+              },
+              staggeredTileBuilder: (index) {
+                // Create varied heights for more interesting layout
+                return StaggeredTile.count(1, index.isEven ? 1.2 : 1.0);
+              },
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
