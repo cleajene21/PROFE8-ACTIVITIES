@@ -1,0 +1,45 @@
+name: haircut_booking
+description: A Flutter app for haircut booking and media showcase.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  intl: ^0.18.0
+  provider: ^6.0.5
+  uuid: ^4.3.3
+  video_player: ^2.9.1
+  chewie: ^1.7.5
+  audioplayers: ^6.1.0
+  flutter_vector_icons: ^2.0.0   # ✅ replaced flutter_icons (null-safe)
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/videos/
+    - assets/audio/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
